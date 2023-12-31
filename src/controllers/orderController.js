@@ -1,4 +1,4 @@
-const { model } = require("../db");
+const { model } = require("../../db");
 const { Order, Device } = require("../models/models")
 
 class OrderController {

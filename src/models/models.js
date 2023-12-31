@@ -1,4 +1,4 @@
-const sequelize = require('../db')
+const sequelize = require('../../db')
 const {Sequelize} = require('sequelize')
 
 const User = sequelize.define('user',{
@@ -11,9 +11,7 @@ const User = sequelize.define('user',{
 })
 
 const BasketDevice = sequelize.define("basket_device",{
-
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true}
-
 })
 
 const Basket = sequelize.define('basket',{

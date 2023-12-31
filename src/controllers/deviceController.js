@@ -8,10 +8,10 @@ class DeviceController {
     async create(req, res, next) {
         try {
             let { name, price, brandId, typeId, info } = req.body
-            
+
             const { img } = req.files
             let fileName = uuid.v4() + ".jpg"
-            img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            img.mv(path.resolve(__dirname, '../../', 'static', fileName))
             const device = await Device.create({ name, price, brandId, typeId, img: fileName });
 
             if (info) {
@@ -19,7 +19,7 @@ class DeviceController {
                 info.forEach(i =>
                     DeviceInfo.create({
                         title: i.title,
-                        discription: i.description,
+                        description: i.description,
                         deviceId: device.id
                     })
                 )
