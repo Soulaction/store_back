@@ -12,4 +12,4 @@ RUN npm install
 EXPOSE 8080
 
 # запускаем основной скрипт в момент запуска контейнера
-CMD ["node", "index.js"]
+CMD ["node", "index.ts"]

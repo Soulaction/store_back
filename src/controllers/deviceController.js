@@ -1,8 +1,7 @@
 const uuid = require('uuid')
 const path = require('path')
 const { Device, DeviceInfo, BasketDevice } = require('../models/models')
-const ApiError = require('../error/ApiError')
-const { off } = require('process')
+const ApiError = require('../error/ApiError');;
 
 class DeviceController {
     async create(req, res, next) {
@@ -10,8 +9,8 @@ class DeviceController {
             let { name, price, brandId, typeId, info } = req.body
 
             const { img } = req.files
-            let fileName = uuid.v4() + ".jpg"
-            img.mv(path.resolve(__dirname, '../../', 'static', fileName))
+            const fileName = uuid.v4() + ".jpg"
+            img.mv(path.resolve(__dirname, '../../', 'static/devices', fileName))
             const device = await Device.create({ name, price, brandId, typeId, img: fileName });
 
             if (info) {
@@ -24,7 +23,6 @@ class DeviceController {
                     })
                 )
             }
-
             return res.json(device)
         } catch (e) {
             next(ApiError.badRequest(e.message))
@@ -32,10 +30,9 @@ class DeviceController {
     }
 
     async getAll(req, res) {
-
         let { brandId, typeId, limit, page } = req.query
         page = page || 1
-        limit = limit || 9
+        limit = limit || 10
         let offset = page * limit - limit
         let devices;
         if (!brandId && !typeId) {
@@ -74,7 +71,6 @@ class DeviceController {
 
     async deleteDevice (req, res) {
         const { id } = req.params
-        console.log(id)
         const device = await Device.destroy(
             {
                 where: {id}

@@ -62,8 +62,8 @@ class UserController {
         return res.json(user)
     }
 
-    async allUser(req, res)  {
-        const user = await User.findAll()
+    async getAllUsers(req, res)  {
+        const user = await User.findAll({attributes: {exclude: ['password']}})
         return res.json(user)
     }
 
