@@ -2,6 +2,8 @@ import {v4} from "uuid";
 import path from "path";
 import {BrandEntity} from "../models/models";
 import {UploadedFile} from "express-fileupload";
+import * as fs from "fs";
+import {TypeDto} from "../dto/TypeDto";
 
 class TypeService {
     async create(name: string, img: UploadedFile) {
@@ -16,12 +18,13 @@ class TypeService {
     }
 
     async delete(id: number): Promise<void> {
-
-        await BrandEntity.destroy(
+        const brandEntity = await BrandEntity.findOne(
             {
                 where: {id}
             }
-        )
+        );
+        brandEntity?.destroy();
+        fs.unlinkSync(path.resolve(__dirname, '../../', 'static/types/', new TypeDto(brandEntity).name));
     }
 }
 

@@ -1,8 +1,8 @@
 import {Router} from 'express';
-const brandRouter = require('./brandRouter');
-const deviceRouter = require('./deviceRouter');
+import deviceRouter from './device-router';
 import typeRouter from './type-router';
-const userRouter = require('./userRouter');
+import brandRouter from './type-router';
+import userRouter from './user-router';
 const basketRouter = require('./basketRouter');
 const orderRouter = require('./orderRouter');
 

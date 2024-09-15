@@ -4,12 +4,12 @@ import {sequelize} from './db';
 const cors = require('cors');
 import fileUpload from 'express-fileupload';
 import router from './routes/index';
-const errorHandler = require('./middleware/ErrorHandingMiddleWare');
-const path = require('path');
+import errorHandler from './middleware/ErrorHandingMiddleWare';
+import path from 'path';
 const {graphqlHTTP} = require('express-graphql');
 const schema = require('./graphql/shema');
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 
 
 const app = express()
@@ -25,7 +25,7 @@ app.use('/api', router);
 
 
 //Обработка ошибок, последний Middleware
-app.use(errorHandler)
+app.use(errorHandler);
 
 const start = async () => {
     try {

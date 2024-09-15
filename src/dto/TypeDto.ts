@@ -10,6 +10,6 @@ export class TypeDto {
     }
 
     static mapListEntityToDto(model): TypeDto[] {
-        return model.map(el => ({id: el.id, name: el.name} as TypeDto));
+        return model.map(el => new TypeDto(el));
     }
 }
