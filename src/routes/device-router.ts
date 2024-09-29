@@ -5,6 +5,7 @@ const deviceRouter = Router();
 deviceRouter.post('/add', deviceController.addBasket);
 deviceRouter.get('/', deviceController.getAll);
 deviceRouter.post('/', deviceController.create);
+deviceRouter.patch('/', deviceController.update);
 deviceRouter.get('/:id', deviceController.getOne);
 deviceRouter.delete('/:id', deviceController.deleteDevice);
 

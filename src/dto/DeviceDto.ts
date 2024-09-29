@@ -5,6 +5,7 @@ export class DeviceDto {
     brandId: string;
     typeId: string;
     img: string;
+    info: string;
 
     constructor(model) {
         this.id = model.id;
@@ -13,6 +14,7 @@ export class DeviceDto {
         this.brandId = model.brandId;
         this.typeId = model.typeId;
         this.img = model.img;
+        this.info = model.info;
     }
 
     static mapListEntityToDto(model): DeviceDto[] {

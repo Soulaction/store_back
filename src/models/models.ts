@@ -3,7 +3,7 @@ import {DataTypes } from 'sequelize';
 
 const UserEntity = sequelize.define('user',{
 
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.UUID, primaryKey: true},
     fio: {type: DataTypes.STRING},
     telephone: {type: DataTypes.STRING},
     email: {type: DataTypes.STRING, unique: true},
@@ -13,35 +13,34 @@ const UserEntity = sequelize.define('user',{
 })
 
 const BasketDeviceEntity = sequelize.define("basket_device",{
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+    id: {type: DataTypes.UUID, primaryKey: true}
 })
 
 const BasketEntity = sequelize.define('basket',{
 
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+    id: {type: DataTypes.UUID, primaryKey: true}
 
 })
 
 const DeviceEntity = sequelize.define('device',{
 
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.UUID, primaryKey: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
     price: {type: DataTypes.INTEGER, allowNull: false},
-    rating: {type: DataTypes.INTEGER, defaultValue:0},
-    img: {type: DataTypes.STRING, allowNull: false}
+    img: {type: DataTypes.STRING, allowNull: true}
 
 })
 
 const RatingEntity = sequelize.define('rating',{
 
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.UUID, primaryKey: true},
     rate: {type: DataTypes.INTEGER, allowNull: false}
 
 })
 
 const TypeEntity = sequelize.define('type',{
 
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.UUID, primaryKey: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
     img: {type: DataTypes.STRING, allowNull: false}
 
@@ -49,20 +48,20 @@ const TypeEntity = sequelize.define('type',{
 
 const BrandEntity = sequelize.define('brand',{
 
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.UUID, primaryKey: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false}
 
 })
 
 const DeviceInfoEntity = sequelize.define('device_info',{
 
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.UUID, primaryKey: true},
     title: {type: DataTypes.STRING, allowNull: false},
     description: {type: DataTypes.STRING, allowNull: false}
 })
 
 const OrderEntity = sequelize.define('order', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.UUID, primaryKey: true},
     statusOrder: {type: DataTypes.STRING, allowNull: false, defaultValue: 'Ожидание формирования'},
     statusPayment: {type: DataTypes.STRING, allowNull: false},
 })
