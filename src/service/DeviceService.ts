@@ -1,14 +1,14 @@
-import {v4} from "uuid";
+import {v4, version, validate} from "uuid";
 import path from "path";
 import {DeviceDto} from "../dto/DeviceDto";
 import {BasketDeviceEntity, DeviceEntity, DeviceInfoEntity} from "../models/models";
 import {UploadedFile} from "express-fileupload";
 import {DeviceInfoDto} from "../dto/DeviceInfoDto";
 import fs from "fs";
-import {TypeDto} from "../dto/TypeDto";
-import {UserDto} from "../dto/UserDto";
+import {ApiError} from "../error/ApiError";
+import {Op} from "sequelize";
 
-class UserService {
+class DeviceService {
     async create(deviceDto: DeviceDto, file: UploadedFile) {
         let {name, price, brandId, typeId, info} = deviceDto;
         const id: string = v4();
@@ -21,6 +21,7 @@ class UserService {
             const filterInfo: DeviceInfoDto[] = parseInfo.filter(el => (el.title && el.description));
             filterInfo.forEach(i =>
                 DeviceInfoEntity.create({
+                    id: v4(),
                     title: i.title,
                     description: i.description,
                     deviceId: device.id
@@ -28,6 +29,54 @@ class UserService {
             );
         }
         return device;
+    }
+
+    async update(device: DeviceDto, img: UploadedFile | null) {
+
+        const findDevice = await DeviceEntity.findOne({where: {id: device.id}});
+        if (!findDevice?.dataValues) {
+            throw ApiError.badRequest('Редактируемая запись не найдена');
+        }
+
+        const checkDevice = await DeviceEntity.findOne({where: {name: device.name, id: {[Op.ne]: device.id}}});
+        if (checkDevice?.dataValues) {
+            throw ApiError.badRequest('Запись с таким наименованием уже существует');
+        }
+        let updateType;
+
+        if (img) {
+            await fs.unlinkSync(path.resolve(__dirname, '../../', 'static/devices/', findDevice.dataValues.img));
+
+            const fileName = v4() + ".jpg";
+            updateType = await findDevice.update({name: device.name, img: fileName});
+            await img.mv(path.resolve(__dirname, '../../', 'static/devices/', fileName));
+        } else {
+            updateType = await findDevice.update({name: device.name});
+        }
+        (JSON.parse(device.info) as DeviceInfoDto[]).forEach(item => {
+            console.log(item);
+            if (validate(item.id)) {
+                DeviceEntity.update({
+                        title: item.title,
+                        description: item.description
+                    },
+                    {
+                        where: {
+                            id: item.id
+                        }
+                    }
+                );
+            } else {
+                DeviceInfoEntity.create({
+                    id: v4(),
+                    title: item.title,
+                    description: item.description,
+                    deviceId: device.id
+                })
+            }
+
+        })
+        return updateType;
     }
 
     async getAll(brandId: string, typeId: string, limit: number, offset: number) {
@@ -80,4 +129,4 @@ class UserService {
     }
 }
 
-export default new UserService();
+export default new DeviceService();

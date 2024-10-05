@@ -3,7 +3,7 @@ import deviceRouter from './device-router';
 import typeRouter from './type-router';
 import brandRouter from './brand-router';
 import userRouter from './user-router';
-const basketRouter = require('./basketRouter');
+import basketRouter from './basket-router';
 const orderRouter = require('./orderRouter');
 
 
