@@ -1,5 +1,5 @@
 export class BasketDto {
     id: string;
-    userId: string;
+    basketId: string;
     deviceId: string;
 }

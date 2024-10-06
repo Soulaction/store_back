@@ -17,7 +17,7 @@ class BasketService {
         const basketItem = await BasketDeviceEntity.create(
             {
                 id: v4(),
-                userId: basketDto.userId,
+                basketId: basketDto.basketId,
                 deviceId: basketDto.deviceId
             }
         );

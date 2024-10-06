@@ -48,13 +48,13 @@ class DeviceService {
             await fs.unlinkSync(path.resolve(__dirname, '../../', 'static/devices/', findDevice.dataValues.img));
 
             const fileName = v4() + ".jpg";
-            updateType = await findDevice.update({name: device.name, img: fileName});
+            updateType = await findDevice.update({name: device.name, price: device.price, brandId: device.brandId, typeId: device.typeId,  img: fileName});
             await img.mv(path.resolve(__dirname, '../../', 'static/devices/', fileName));
         } else {
-            updateType = await findDevice.update({name: device.name});
+            updateType = await findDevice.update({name: device.name, price: device.price, brandId: device.brandId, typeId: device.typeId});
         }
         (JSON.parse(device.info) as DeviceInfoDto[]).forEach(item => {
-            console.log(item);
+
             if (validate(item.id)) {
                 DeviceEntity.update({
                         title: item.title,
