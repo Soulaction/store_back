@@ -36,9 +36,13 @@ class DeviceController {
 
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            let {brandId, typeId, limit = 10, page = 1} = req.query;
+            let {brandId, typeId, name, price, limit = 10, page = 1} = req.query;
             let offset = (+page) * (+limit) - (+limit);
-            const devices = await deviceService.getAll(brandId as string, typeId as string, limit as number, offset);
+            const devices = await deviceService.getAll(brandId as string
+                , typeId as string
+                , name as string
+                , price as unknown as number
+                , limit as number, offset);
             res.status(200).json(devices);
         } catch (e) {
             next(e);

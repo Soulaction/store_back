@@ -1,4 +1,4 @@
-import {v4, version, validate} from "uuid";
+import {v4, validate} from "uuid";
 import path from "path";
 import {DeviceDto} from "../dto/DeviceDto";
 import {BasketDeviceEntity, DeviceEntity, DeviceInfoEntity} from "../models/models";
@@ -48,10 +48,21 @@ class DeviceService {
             await fs.unlinkSync(path.resolve(__dirname, '../../', 'static/devices/', findDevice.dataValues.img));
 
             const fileName = v4() + ".jpg";
-            updateType = await findDevice.update({name: device.name, price: device.price, brandId: device.brandId, typeId: device.typeId,  img: fileName});
+            updateType = await findDevice.update({
+                name: device.name,
+                price: device.price,
+                brandId: device.brandId,
+                typeId: device.typeId,
+                img: fileName
+            });
             await img.mv(path.resolve(__dirname, '../../', 'static/devices/', fileName));
         } else {
-            updateType = await findDevice.update({name: device.name, price: device.price, brandId: device.brandId, typeId: device.typeId});
+            updateType = await findDevice.update({
+                name: device.name,
+                price: device.price,
+                brandId: device.brandId,
+                typeId: device.typeId
+            });
         }
         (JSON.parse(device.info) as DeviceInfoDto[]).forEach(item => {
 
@@ -79,20 +90,60 @@ class DeviceService {
         return updateType;
     }
 
-    async getAll(brandId: string, typeId: string, limit: number, offset: number) {
+    async getAll(
+        brandId: string
+        , typeId: string
+        , name: string
+        , price: number
+        , limit: number
+        , offset: number
+    ) {
         let devices;
-        if (!brandId && !typeId) {
-            devices = await DeviceEntity.findAndCountAll({limit, offset});
+        const filterObject = {};
+        if (brandId) {
+            filterObject['brandId'] = brandId;
         }
-        if (brandId && !typeId) {
-            devices = await DeviceEntity.findAndCountAll({where: {brandId}, limit, offset});
+        if (typeId) {
+            filterObject['typeId'] = typeId;
         }
-        if (!brandId && typeId) {
-            devices = await DeviceEntity.findAndCountAll({where: {typeId}, limit, offset});
+
+        if (name) {
+            devices = await DeviceEntity.findAndCountAll({
+                where: {
+                    name: {
+                        [Op.iLike]: `%${name}%`
+                    },
+                    ...filterObject
+                }
+                , limit, offset
+            });
+        } else if(price) {
+            devices = await DeviceEntity.findAndCountAll({
+                where: {
+                    price: {
+                        [Op.between]: [0, price]
+                    },
+                    ...filterObject
+                }
+                , limit, offset
+            });
+        } else if(name && price) {
+            devices = await DeviceEntity.findAndCountAll({
+                where: {
+                    name: {
+                        [Op.iLike]: `%${name}%`
+                    },
+                    price: {
+                        [Op.between]: [0, price]
+                    },
+                    ...filterObject
+                }
+                , limit, offset
+            });
+        } else {
+            devices = await DeviceEntity.findAndCountAll({where: {...filterObject}, limit, offset});
         }
-        if (brandId && typeId) {
-            devices = await DeviceEntity.findAndCountAll({where: {brandId, typeId}, limit, offset});
-        }
+
         return devices;
     }
 
