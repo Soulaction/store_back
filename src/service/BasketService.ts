@@ -1,6 +1,6 @@
 import {v4} from "uuid";
 import {BasketDeviceEntity, DeviceEntity} from "../models/models";
-import {BasketDto} from "../dto/BasketDto";
+import {BasketDataDto} from "../dto/BasketDto";
 
 class BasketService {
     async getAll(basketId: string) {
@@ -10,15 +10,16 @@ class BasketService {
                 include: [{model: DeviceEntity}]
             }
         );
+
         return products;
     }
 
-    async addItem(basketDto: BasketDto) {
+    async addItem(basketDto: BasketDataDto) {
         const basketItem = await BasketDeviceEntity.create(
             {
                 id: v4(),
-                basketId: basketDto.basketId,
-                deviceId: basketDto.deviceId
+                basketId: basketDto.idBasketItem,
+                deviceId: basketDto.id
             }
         );
         return basketItem;

@@ -1,5 +1,4 @@
-export class BasketDto {
+export class BasketDataDto {
     id: string;
-    basketId: string;
-    deviceId: string;
+    idBasketItem: string;
 }

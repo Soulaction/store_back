@@ -1,22 +1,35 @@
 import {NextFunction, Request, Response} from "express";
 import basketService from '../service/BasketService';
-import {BasketDto} from "../dto/BasketDto";
+import {BasketDataDto} from "../dto/BasketDto";
+import {BasketItemDto} from "../dto/BasketItemDto";
 
 class BasketController {
 
     async getAll(req: Request, res: Response, next: NextFunction) {
-        const {idBasket} = req.params;
-        res.status(200).json(await basketService.getAll(idBasket))
+        try {
+            const {idBasket} = req.params;
+            res.status(200).json(BasketItemDto.mapListEntityToDto(await basketService.getAll(idBasket)));
+        } catch (e) {
+            next(e)
+        }
     }
 
     async deleteItem(req: Request, res: Response, next: NextFunction) {
-        const {id} = req.params;
-        return res.status(204).json(await basketService.deleteItem(id));
+        try {
+            const {id} = req.params;
+            return res.status(204).json(await basketService.deleteItem(id));
+        } catch (e) {
+            next(e)
+        }
     }
 
     async addItem(req: Request, res: Response, next: NextFunction) {
-        const basketDto: BasketDto = req.body;
-        return res.status(201).json(await basketService.addItem(basketDto));
+        try {
+            const basketDto: BasketDataDto = req.body;
+            return res.status(201).json(await basketService.addItem(basketDto));
+        } catch (e) {
+            next(e)
+        }
     }
 }
 
