@@ -3,10 +3,10 @@ import {BasketDeviceEntity, DeviceEntity} from "../models/models";
 import {BasketDataDto} from "../dto/BasketDto";
 
 class BasketService {
-    async getAll(basketId: string) {
+    async getAll(userId: string) {
         const products = await BasketDeviceEntity.findAll(
             {
-                where: {basketId},
+                where: {userId},
                 include: [{model: DeviceEntity}]
             }
         );
@@ -18,8 +18,8 @@ class BasketService {
         const basketItem = await BasketDeviceEntity.create(
             {
                 id: v4(),
-                basketId: basketDto.idBasketItem,
-                deviceId: basketDto.id
+                userId: basketDto.userId,
+                deviceId: basketDto.deviceId
             }
         );
         return basketItem;

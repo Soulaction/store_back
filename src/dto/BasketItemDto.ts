@@ -1,10 +1,14 @@
 import {DeviceDto} from "./DeviceDto";
 
 export class BasketItemDto extends DeviceDto {
-    idBasketItem: string;
+    userId: string;
+    deviceId: string;
+
     constructor(model) {
         super(model.device);
-        this.idBasketItem = model.id;
+        this.id = model.id;
+        this.userId = model.userId;
+        this.deviceId = model.deviceId;
     }
 
     static mapListEntityToDto(model): DeviceDto[] {

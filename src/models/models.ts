@@ -1,25 +1,9 @@
 import {sequelize} from '../db';
 import {DataTypes } from 'sequelize';
 
-const UserEntity = sequelize.define('user',{
-
-    id: {type: DataTypes.UUID, primaryKey: true},
-    fio: {type: DataTypes.STRING},
-    telephone: {type: DataTypes.STRING},
-    email: {type: DataTypes.STRING, unique: true},
-    password: {type: DataTypes.STRING},
-    role: {type: DataTypes.STRING, defaultValue:"USER"}
-
-})
-
 const BasketDeviceEntity = sequelize.define("basket_device",{
-    id: {type: DataTypes.UUID, primaryKey: true}
-})
-
-const BasketEntity = sequelize.define('basket',{
-
-    id: {type: DataTypes.UUID, primaryKey: true}
-
+    id: {type: DataTypes.UUID, primaryKey: true},
+    userId: {type: DataTypes.STRING, allowNull: false}
 })
 
 const DeviceEntity = sequelize.define('device',{
@@ -66,18 +50,6 @@ const OrderEntity = sequelize.define('order', {
     statusPayment: {type: DataTypes.STRING, allowNull: false},
 })
 
-UserEntity.hasOne(BasketEntity)
-BasketEntity.belongsTo(UserEntity)
-
-UserEntity.hasMany(RatingEntity)
-RatingEntity.belongsTo(UserEntity)
-
-UserEntity.hasMany(OrderEntity)
-OrderEntity.belongsTo(UserEntity)
-
-BasketEntity.hasMany(BasketDeviceEntity)
-BasketDeviceEntity.belongsTo(BasketEntity)
-
 BasketDeviceEntity.hasMany(OrderEntity)
 OrderEntity.belongsTo(BasketDeviceEntity)
 
@@ -101,8 +73,6 @@ DeviceInfoEntity.belongsTo(DeviceEntity)
 
 
 export {
-    UserEntity,
-    BasketEntity,
     BasketDeviceEntity,
     BrandEntity,
     TypeEntity,

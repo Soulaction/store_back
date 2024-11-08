@@ -7,8 +7,8 @@ class BasketController {
 
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const {idBasket} = req.params;
-            res.status(200).json(BasketItemDto.mapListEntityToDto(await basketService.getAll(idBasket)));
+            const {userId} = req.params;
+            res.status(200).json(BasketItemDto.mapListEntityToDto(await basketService.getAll(userId)));
         } catch (e) {
             next(e)
         }
