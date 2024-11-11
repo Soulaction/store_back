@@ -58,16 +58,6 @@ class DeviceController {
         }
     }
 
-    async addBasket(req: Request, res: Response, next: NextFunction) {
-        try {
-            const {basketId, deviceId} = req.body;
-            const basketDevice = await deviceService.addBasket(basketId, deviceId);
-            res.status(201).json(basketDevice);
-        } catch (e) {
-            next(e);
-        }
-    }
-
     async deleteDevice(req: Request, res: Response, next: NextFunction) {
         try {
             const {id} = req.params

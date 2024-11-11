@@ -29,7 +29,7 @@ class BrandService {
         return await BrandEntity.findAll();
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         const brandEntity = await BrandEntity.findOne(
             {
                 where: {id}

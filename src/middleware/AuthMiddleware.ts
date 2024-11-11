@@ -13,17 +13,17 @@ export default function (req: Request, res: Response, next: NextFunction) {
     }
 
     const tokenData: string[] = authorization!.split(' ');
-    if (tokenData[0] === 'Bearer' && tokenData[1]) {
+    if (!(tokenData[0] === 'Bearer') || !tokenData[1]) {
         next(ApiError.unauthorized(textError));
     }
 
-    let user: Pick<UserDto, 'email' | 'isActivate'>;
+    let user: UserDto;
     try {
-        const publicKey = fs.readFileSync(path.resolve(__dirname, '..', '..', 'privateAccess.pem'), 'utf8');
-        user = <Pick<UserDto, 'email' | 'isActivate' >>jwt.verify(tokenData[1], publicKey);
+        const publicKey = fs.readFileSync(path.resolve(__dirname, '..', '..', 'publicAccess.pem'), 'utf8');
+        user = <UserDto>jwt.verify(tokenData[1], publicKey);
         req['user'] = user;
     } catch (error) {
-        next(error);
+        next(ApiError.unauthorized(textError));
     }
     next();
 }

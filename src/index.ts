@@ -18,9 +18,9 @@ app.use('/graphql', graphqlHTTP({
     schema
 }));
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, '..', 'static')));
 app.use(fileUpload({}));
-app.use('/api', router);
+app.use('/store-api', express.static(path.resolve(__dirname, '..', 'static')));
+app.use('/store-api', router);
 
 
 app.use(errorHandler);

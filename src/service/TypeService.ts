@@ -49,7 +49,7 @@ class TypeService {
         return await TypeEntity.findAll();
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         const brandEntity = await TypeEntity.findOne(
             {
                 where: {id}

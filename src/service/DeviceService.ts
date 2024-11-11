@@ -157,10 +157,6 @@ class DeviceService {
         return device;
     }
 
-    async addBasket(basketId: string, deviceId: string) {
-        return await BasketDeviceEntity.create({basketId, deviceId});
-    }
-
     async deleteDevice(id: string) {
         const device = await DeviceEntity.destroy(
             {

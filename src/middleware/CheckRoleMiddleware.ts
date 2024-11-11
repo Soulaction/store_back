@@ -13,11 +13,11 @@ export default function (role) {
             user = <UserDto>jwt.verify(token, publicKey);
 
         } catch {
-            next(throw ApiError.unauthorized('Пользователь не авторизован'));
+            next(ApiError.unauthorized('Пользователь не авторизован'));
         }
 
-        if (user.role != role) {
-            next(throw ApiError.forbidden('Нет доступа'));
+        if (user!.role != role) {
+            next(ApiError.forbidden('Нет доступа'));
         }
         next();
     }

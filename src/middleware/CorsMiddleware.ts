@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from 'express';
 import ms from "ms";
 
-const allowOrigin: string[] = ['http://localhost:3001'];
+const allowOrigin: string[] = ['http://localhost:8080'];
 const allowMethods: string = 'GET,POST,PUT,PATCH,DELETE';
 
 export default function (req: Request, res: Response, next: NextFunction) {

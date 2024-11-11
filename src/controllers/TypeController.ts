@@ -41,7 +41,7 @@ class TypeController {
         return res.json(types)
     }
 
-    async delete(req: Request<{ id: number }>, res: Response, next: NextFunction) {
+    async delete(req: Request, res: Response, next: NextFunction) {
         const {id} = req.params;
         try {
             await TypeService.delete(id);

@@ -1,12 +1,13 @@
 import {Router} from 'express';
 import deviceController from '../controllers/DeviceController';
+import authMiddleware from "../middleware/AuthMiddleware";
+import checkRoleMiddleware from "../middleware/CheckRoleMiddleware";
 
 const deviceRouter = Router();
-deviceRouter.post('/add', deviceController.addBasket);
 deviceRouter.get('/', deviceController.getAll);
-deviceRouter.post('/', deviceController.create);
-deviceRouter.patch('/', deviceController.update);
+deviceRouter.post('/', authMiddleware, checkRoleMiddleware('ADMIN'), deviceController.create);
+deviceRouter.patch('/', authMiddleware, checkRoleMiddleware('ADMIN'), deviceController.update);
 deviceRouter.get('/:id', deviceController.getOne);
-deviceRouter.delete('/:id', deviceController.deleteDevice);
+deviceRouter.delete('/:id', authMiddleware, checkRoleMiddleware('ADMIN'), deviceController.deleteDevice);
 
 export default deviceRouter;
